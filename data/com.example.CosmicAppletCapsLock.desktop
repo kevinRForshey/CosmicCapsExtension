@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=CapsLock Indicator
+Comment=Shows "CapsLockOn" in the panel while Caps Lock is active
+Exec=cosmic-applet-capslock
+Icon=com.example.CosmicAppletCapsLock
+Terminal=false
+NoDisplay=true
+StartupNotify=true
+Categories=COSMIC;
+Keywords=caps;capslock;indicator;
+X-CosmicApplet=true
+X-HostWaylandDisplay=true
