@@ -244,10 +244,11 @@ impl Application for CapsLockApplet {
                 .into()
         };
 
-        button::custom(content)
+        let button = button::custom(content)
             .on_press_down(Message::TogglePopup)
-            .class(cosmic::theme::Button::AppletIcon)
-            .into()
+            .class(cosmic::theme::Button::AppletIcon);
+
+        self.core.applet.autosize_window(button).into()
     }
 
     fn view_window(&self, _id: window::Id) -> Element<'_, Message> {

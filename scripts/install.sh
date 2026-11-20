@@ -37,18 +37,12 @@ echo "Installing binary to ${BIN_DEST}"
 install -m 755 "${PROJECT_DIR}/target/release/${BIN_NAME}" "$BIN_DEST"
 
 echo "Installing desktop entry to ${DESKTOP_DEST}"
-install -m 644 "$DESKTOP_SRC" "$DESKTOP_DEST"
-
-case ":${PATH}:" in
-    *":${BIN_DEST_DIR}:"*) ;;
-    *)
-        echo
-        echo "WARNING: ${BIN_DEST_DIR} is not on your PATH."
-        echo "cosmic-panel launches applets by the bare binary name on PATH, so add it,"
-        echo "e.g. in ~/.profile or ~/.bashrc:"
-        echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
-        ;;
-esac
+# cosmic-panel resolves Exec= against its own session PATH, which (unlike an
+# interactive shell's PATH) generally does NOT include ~/.local/bin -- so a
+# bare `Exec=cosmic-applet-capslock` silently fails to launch. Substitute the
+# absolute path so the applet starts regardless of the session's PATH.
+sed "s|^Exec=${BIN_NAME}\$|Exec=${BIN_DEST}|" "$DESKTOP_SRC" > "$DESKTOP_DEST"
+chmod 644 "$DESKTOP_DEST"
 
 echo
 echo "Installed. Add it to a panel zone via:"
